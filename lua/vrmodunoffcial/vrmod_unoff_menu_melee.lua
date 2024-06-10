@@ -1,37 +1,70 @@
--- vrmod_vr_melee.lua
---------[vrmod_addmenu03.lua]Start--------
 AddCSLuaFile()
-if SERVER then return end
-local convars, convarValues = vrmod.GetConvars()
--- 新しいタブを追加
-hook.Add(
-    "VRMod_Menu",
-    "addsettingsmelee",
-    function(frame)
-        local sheet = vgui.Create("DPropertySheet", frame.DPropertySheet)
-        frame.DPropertySheet:AddSheet("VRMelee", sheet)
-        sheet:Dock(FILL)
-        local MenuTabmelee = vgui.Create("DPanel", sheet)
-        sheet:AddSheet("VRMelee1", MenuTabmelee, "icon16/briefcase.png")
-        MenuTabmelee.Paint = function(self, w, h) end
-        local form = vgui.Create("DForm", sheet)
-        form:SetName("VRMelee")
-        form:Dock(TOP)
-        form.Header:SetVisible(false)
-        form.Paint = function(self, w, h) end
-        -- form:CheckBox("Allow Gun Melee", "vrmelee_gunmelee")
-        form:CheckBox("Use Gun Melee", "vrmelee_usegunmelee")
-        -- form:CheckBox("Allow Fist Attacks", "vrmelee_fist")
-        form:CheckBox("Use Fist Attacks", "vrmelee_usefist")
-        -- form:CheckBox("Allow Kick Attacks [FBT]", "vrmelee_kick")
-        form:CheckBox("Use Kick Attacks [FBT]", "vrmelee_usekick")
-        form:NumSlider("Melee Velocity Threshold", "vrmelee_velthreshold", 0.1, 10, 1)
-        form:NumSlider("Melee Damage", "vrmelee_damage", 0, 1000, 0)
-        form:NumSlider("Melee Delay", "vrmelee_delay", 0.01, 1, 2)
-        form:CheckBox("Fist Collision", "vrmelee_fist_collision")
-        form:CheckBox("Fist Collision Visible", "vrmelee_fist_visible")
-        form:CheckBox("ragdoll wide pickup", "vrmelee_ragdoll_pickup")
-        form:NumSlider("ragdoll pickup range", "vrmelee_ragdollpickup_range",0,40,1)
-        form:TextEntry("Collision Model", "vrmelee_fist_collisionmodel")
-    end
-)
+if CLIENT then
+    local convars, convarValues = vrmod.GetConvars()
+    hook.Add(
+        "VRMod_Menu",
+        "addsettingsmelee",
+        function(frame)
+            local sheet = vgui.Create("DPropertySheet", frame.DPropertySheet)
+            frame.DPropertySheet:AddSheet("VRMelee", sheet)
+            sheet:Dock(FILL)
+            local MenuTabmelee1 = vgui.Create("DPanel", sheet)
+            sheet:AddSheet("VRMelee1", MenuTabmelee1, "icon16/briefcase.png")
+            MenuTabmelee1.Paint = function(self, w, h) end
+            local scrollPanel1 = vgui.Create("DScrollPanel", MenuTabmelee1)
+            scrollPanel1:Dock(FILL)
+            local form1 = vgui.Create("DForm", scrollPanel1)
+            form1:SetName("VRMelee1")
+            form1:Dock(TOP)
+            form1.Header:SetVisible(false)
+            form1.Paint = function(self, w, h) end
+            form1:CheckBox("Use Gun Melee", "vrmelee_usegunmelee")
+            form1:CheckBox("Use Fist Attacks", "vrmelee_usefist")
+            form1:CheckBox("Use Kick Attacks [FBT]", "vrmelee_usekick")
+            form1:CheckBox("Fist Collision", "vrmelee_fist_collision")
+            form1:CheckBox("Fist Collision Visible", "vrmelee_fist_visible")
+            form1:CheckBox("ragdoll wide pickup", "vrmelee_ragdoll_pickup")
+            form1:NumSlider("ragdoll pickup range", "vrmelee_ragdollpickup_range", 0, 40, 1)
+            local MenuTabmelee2 = vgui.Create("DPanel", sheet)
+            sheet:AddSheet("VRMelee2", MenuTabmelee2, "icon16/wand.png")
+            MenuTabmelee2.Paint = function(self, w, h) end
+            local scrollPanel2 = vgui.Create("DScrollPanel", MenuTabmelee2)
+            scrollPanel2:Dock(FILL)
+            local form2 = vgui.Create("DForm", scrollPanel2)
+            form2:SetName("VRMelee2")
+            form2:Dock(TOP)
+            form2.Header:SetVisible(false)
+            form2.Paint = function(self, w, h) end
+            form2:NumSlider("Melee Damage Low", "vrmelee_damage_low", 0, 100, 0)
+            form2:NumSlider("Melee Damage Medium", "vrmelee_damage_medium", 0, 100, 0)
+            form2:NumSlider("Melee Damage High", "vrmelee_damage_high", 0, 100, 0)
+            form2:NumSlider("Melee Velocity Threshold Low", "vrmelee_damage_velocity_low", 0, 10, 1)
+            form2:NumSlider("Melee Velocity Threshold Medium", "vrmelee_damage_velocity_medium", 0, 10, 1)
+            form2:NumSlider("Melee Velocity Threshold High", "vrmelee_damage_velocity_high", 0, 10, 1)
+            form2:NumSlider("Melee Impact Force", "vrmelee_impact", 0, 900, 2)
+            form2:NumSlider("Melee Delay", "vrmelee_delay", 0.01, 1, 2)
+            form2:NumSlider("Melee Cooldown", "vrmelee_cooldown", 0.01, 1, 2)
+            local MenuTabmelee3 = vgui.Create("DPanel", sheet)
+            sheet:AddSheet("VRMelee3", MenuTabmelee3, "icon16/wand.png")
+            MenuTabmelee3.Paint = function(self, w, h) end
+            local scrollPanel3 = vgui.Create("DScrollPanel", MenuTabmelee3)
+            scrollPanel3:Dock(FILL)
+            local form3 = vgui.Create("DForm", scrollPanel3)
+            form3:SetName("VRMelee3")
+            form3:Dock(TOP)
+            form3.Header:SetVisible(false)
+            form3.Paint = function(self, w, h) end
+            form3:TextEntry("Left Hand Melee Command", "vrmelee_lefthand_command")
+            form3:TextEntry("Right Hand Melee Command", "vrmelee_righthand_command")
+            form3:TextEntry("Left Foot Melee Command", "vrmelee_leftfoot_command")
+            form3:TextEntry("Right Foot Melee Command", "vrmelee_rightfoot_command")
+            form3:TextEntry("Worldmodel Melee Command", "vrmelee_worldmodel_command")
+            form3:TextEntry("Fist Effect Model", "vrmelee_fist_collisionmodel")
+            form3:CheckBox("Emulate Blocking", "vrmelee_emulateblocking")
+            form3:TextEntry("Emulate Block Button", "vrmelee_emulateblockbutton")
+            form3:TextEntry("Emulate Block Release", "vrmelee_emulateblockbutton_release")
+            form3:NumSlider("Emulate Block Threshold Low", "vrmelee_emulatebloack_Threshold_Low", 0, 180, 0)
+            form3:NumSlider("Emulate Block Threshold High", "vrmelee_emulatebloack_Threshold_High", 0, 180, 0)
+        end
+    )
+end
